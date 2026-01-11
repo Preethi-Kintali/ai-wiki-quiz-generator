@@ -1,5 +1,4 @@
-const BASE_URL = "http://127.0.0.1:8000";
-
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 /* ---------------- GENERATE QUIZ ---------------- */
 export async function generateQuiz(url, mode) {
   const res = await fetch(`${BASE_URL}/generate-quiz`, {
