@@ -174,3 +174,6 @@ def delete_all_history(db: Session = Depends(get_db)):
         "message": "All quizzes deleted",
         "deleted_count": count
     }
+@app.get("/")
+def root():
+    return {"status": "Backend is running"}
