@@ -1,6 +1,5 @@
 # llm.py
 import os
-import json
 from huggingface_hub import InferenceClient
 from prompts import (
     QUIZ_PROMPT,
@@ -8,18 +7,28 @@ from prompts import (
     KEY_ENTITIES_PROMPT
 )
 
-HF_TOKEN = os.getenv("HF_TOKEN")
-if not HF_TOKEN:
-    raise RuntimeError("HF_TOKEN environment variable not set")
-
 MODEL_NAME = "meta-llama/Meta-Llama-3-8B-Instruct"
 
-client = InferenceClient(
-    model=MODEL_NAME,
-    token=HF_TOKEN
-)
+_client = None
+
+def get_client():
+    global _client
+    if _client:
+        return _client
+
+    hf_token = os.getenv("HF_TOKEN")
+    if not hf_token:
+        raise RuntimeError("HF_TOKEN environment variable not set")
+
+    _client = InferenceClient(
+        model=MODEL_NAME,
+        token=hf_token
+    )
+    return _client
 
 def _call_llm(prompt: str, max_tokens: int) -> str:
+    client = get_client()
+
     response = client.chat_completion(
         messages=[
             {"role": "system", "content": "Return ONLY valid JSON."},
@@ -36,19 +45,10 @@ def _call_llm(prompt: str, max_tokens: int) -> str:
     return text.strip()
 
 def generate_quiz(article_text: str) -> str:
-    return _call_llm(
-        QUIZ_PROMPT.format(article_text=article_text),
-        max_tokens=900
-    )
+    return _call_llm(QUIZ_PROMPT.format(article_text=article_text), 900)
 
 def generate_related_topics(article_text: str) -> str:
-    return _call_llm(
-        RELATED_TOPICS_PROMPT.format(article_text=article_text),
-        max_tokens=300
-    )
+    return _call_llm(RELATED_TOPICS_PROMPT.format(article_text=article_text), 300)
 
 def extract_key_entities(article_text: str) -> str:
-    return _call_llm(
-        KEY_ENTITIES_PROMPT.format(article_text=article_text),
-        max_tokens=300
-    )
+    return _call_llm(KEY_ENTITIES_PROMPT.format(article_text=article_text), 300)
