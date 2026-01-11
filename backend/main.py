@@ -20,7 +20,13 @@ from crud import (
 
 # ---------------- APP ----------------
 
-app = FastAPI(title="AI Wiki Quiz Generator")
+app = FastAPI(
+    title="AI Wiki Quiz Generator",
+    docs_url="/docs",
+    redoc_url="/redoc",
+    openapi_url="/openapi.json"
+)
+
 
 # ✅ FIXED CORS (THIS IS THE KEY CHANGE)
 app.add_middleware(
