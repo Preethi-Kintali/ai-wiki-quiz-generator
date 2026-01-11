@@ -1,20 +1,17 @@
-# backend/database.py
 import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 
-DATABASE_URL = os.getenv("DATABASE_URL")
-
-if not DATABASE_URL:
-    raise RuntimeError("DATABASE_URL environment variable not set")
-
-connect_args = {}
-if DATABASE_URL.startswith("sqlite"):
-    connect_args = {"check_same_thread": False}
+DATABASE_URL = os.getenv(
+    "DATABASE_URL",
+    "sqlite:///./local.db"  # fallback for local testing
+)
 
 engine = create_engine(
     DATABASE_URL,
-    connect_args=connect_args
+    connect_args={"check_same_thread": False}
+    if DATABASE_URL.startswith("sqlite")
+    else {}
 )
 
 SessionLocal = sessionmaker(
@@ -23,5 +20,4 @@ SessionLocal = sessionmaker(
     bind=engine
 )
 
-# ✅ THIS WAS MISSING
 Base = declarative_base()
