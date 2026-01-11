@@ -1,4 +1,4 @@
-const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const BASE_URL = "https://ai-wiki-quiz-generator-backend-bjhj.onrender.com";
 /* ---------------- GENERATE QUIZ ---------------- */
 export async function generateQuiz(url, mode) {
   const res = await fetch(`${BASE_URL}/generate-quiz`, {

@@ -214,7 +214,7 @@ GitHub Repository:
 👉 https://github.com/Ypreethi-kintali/ai-wiki-quiz-generator
 
 Deployed Application:
-👉 https://your-frontend.vercel.app
+👉 https://ai-wiki-quiz-generator-frontend-9teu.onrender.com
 
 (or local demo shown in screen recording)
 
