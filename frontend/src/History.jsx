@@ -11,7 +11,10 @@ export default function History() {
   const limit = 5;
   const [loading, setLoading] = useState(false);
 
-  // 🔁 LOAD HISTORY (USED EVERYWHERE)
+  // 🆕 MODAL STATE
+  const [selectedQuiz, setSelectedQuiz] = useState(null);
+
+  // 🔁 LOAD HISTORY
   const loadHistory = async () => {
     try {
       setLoading(true);
@@ -35,7 +38,7 @@ export default function History() {
 
     try {
       await deleteQuiz(id);
-      await loadHistory(); // ✅ IMPORTANT FIX
+      await loadHistory();
     } catch (err) {
       alert(err.message);
     }
@@ -49,7 +52,7 @@ export default function History() {
     try {
       await deleteAllQuizzes();
       setPage(1);
-      await loadHistory(); // ✅ IMPORTANT FIX
+      await loadHistory();
     } catch (err) {
       alert(err.message);
     }
@@ -86,32 +89,71 @@ export default function History() {
             {item.summary}
           </p>
 
-          <button onClick={() => handleDelete(item.id)}>
+          <button onClick={() => setSelectedQuiz(item)}>
+            Details
+          </button>
+
+          <button
+            onClick={() => handleDelete(item.id)}
+            style={{ marginLeft: "10px" }}
+          >
             Delete
           </button>
         </div>
       ))}
 
-      {/* PAGINATION */}
-      <div style={{ marginTop: "20px" }}>
-        <button
-          onClick={() => setPage((p) => Math.max(1, p - 1))}
-          disabled={page === 1}
-        >
-          Prev
-        </button>
+      {/* 🆕 DETAILS MODAL */}
+      {selectedQuiz && (
+        <div style={overlayStyle}>
+          <div style={modalStyle}>
+            <h2>{selectedQuiz.title}</h2>
 
-        <span style={{ margin: "0 10px" }}>
-          Page {page}
-        </span>
+            {JSON.parse(selectedQuiz.quiz).map((q, index) => (
+              <div key={index} style={{ marginBottom: "16px" }}>
+                <p><b>Q{index + 1}:</b> {q.question}</p>
 
-        <button
-          onClick={() => setPage((p) => p + 1)}
-          disabled={history.length < limit}
-        >
-          Next
-        </button>
-      </div>
+                <ul>
+                  {q.options.map((op, i) => (
+                    <li key={i}>{op}</li>
+                  ))}
+                </ul>
+
+                <p><b>Answer:</b> {q.answer}</p>
+                <p><b>Difficulty:</b> {q.difficulty}</p>
+                <p><b>Explanation:</b> {q.explanation}</p>
+                <hr />
+              </div>
+            ))}
+
+            <button onClick={() => setSelectedQuiz(null)}>
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
+
+/* 🧾 MODAL STYLES */
+const overlayStyle = {
+  position: "fixed",
+  top: 0,
+  left: 0,
+  width: "100%",
+  height: "100%",
+  background: "rgba(0,0,0,0.5)",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  zIndex: 1000,
+};
+
+const modalStyle = {
+  background: "#fff",
+  padding: "20px",
+  width: "70%",
+  maxHeight: "80%",
+  overflowY: "auto",
+  borderRadius: "8px",
+};

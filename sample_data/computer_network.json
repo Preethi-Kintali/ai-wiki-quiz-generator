@@ -1,0 +1,42 @@
+{
+  "id": 3,
+  "url": "https://en.wikipedia.org/wiki/Computer_network",
+  "title": "Computer network",
+  "summary": "A computer network is a set of computers sharing resources located on or provided by network nodes.",
+  "key_entities": {
+    "people": [],
+    "organizations": [],
+    "locations": []
+  },
+  "quiz": [
+    {
+      "question": "What is a computer network?",
+      "options": [
+        "A single computer system",
+        "A group of connected computers",
+        "A type of operating system",
+        "A programming language"
+      ],
+      "answer": "A group of connected computers",
+      "difficulty": "easy",
+      "explanation": "A computer network consists of multiple computers connected to share resources."
+    },
+    {
+      "question": "Which device is used to forward data packets between networks?",
+      "options": [
+        "Switch",
+        "Router",
+        "Hub",
+        "Repeater"
+      ],
+      "answer": "Router",
+      "difficulty": "medium",
+      "explanation": "Routers forward data packets between different computer networks."
+    }
+  ],
+  "related_topics": [
+    "Network topology",
+    "TCP/IP",
+    "Routing"
+  ]
+}

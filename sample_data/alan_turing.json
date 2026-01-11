@@ -1,0 +1,42 @@
+{
+  "id": 1,
+  "url": "https://en.wikipedia.org/wiki/Alan_Turing",
+  "title": "Alan Turing",
+  "summary": "Alan Turing was a British mathematician, computer scientist, logician, cryptanalyst, philosopher, and theoretical biologist.",
+  "key_entities": {
+    "people": ["Alan Turing", "Alonzo Church"],
+    "organizations": ["University of Cambridge", "Bletchley Park"],
+    "locations": ["United Kingdom"]
+  },
+  "quiz": [
+    {
+      "question": "Where did Alan Turing study mathematics?",
+      "options": [
+        "Harvard University",
+        "Cambridge University",
+        "Oxford University",
+        "Princeton University"
+      ],
+      "answer": "Cambridge University",
+      "difficulty": "easy",
+      "explanation": "Alan Turing studied mathematics at the University of Cambridge."
+    },
+    {
+      "question": "What was Alan Turing's major contribution during World War II?",
+      "options": [
+        "Developing radar systems",
+        "Breaking the Enigma code",
+        "Designing jet engines",
+        "Leading atomic research"
+      ],
+      "answer": "Breaking the Enigma code",
+      "difficulty": "medium",
+      "explanation": "Turing played a key role in breaking the German Enigma cipher at Bletchley Park."
+    }
+  ],
+  "related_topics": [
+    "Enigma machine",
+    "Cryptography",
+    "History of computer science"
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "id": 2,
+  "url": "https://en.wikipedia.org/wiki/Internet",
+  "title": "Internet",
+  "summary": "The Internet is the global system of interconnected computer networks that uses the Internet protocol suite to communicate.",
+  "key_entities": {
+    "people": ["Vint Cerf", "Bob Kahn"],
+    "organizations": ["DARPA"],
+    "locations": ["United States"]
+  },
+  "quiz": [
+    {
+      "question": "Which protocol suite is used by the Internet?",
+      "options": [
+        "HTTP only",
+        "FTP only",
+        "TCP/IP",
+        "SMTP"
+      ],
+      "answer": "TCP/IP",
+      "difficulty": "easy",
+      "explanation": "The Internet operates using the TCP/IP protocol suite."
+    },
+    {
+      "question": "Which organization funded the early development of the Internet?",
+      "options": [
+        "NASA",
+        "DARPA",
+        "IBM",
+        "Microsoft"
+      ],
+      "answer": "DARPA",
+      "difficulty": "medium",
+      "explanation": "DARPA funded the ARPANET, the precursor to the modern Internet."
+    }
+  ],
+  "related_topics": [
+    "ARPANET",
+    "Computer networks",
+    "World Wide Web"
+  ]
+}
