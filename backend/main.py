@@ -22,9 +22,10 @@ from crud import (
 
 app = FastAPI(title="AI Wiki Quiz Generator")
 
+# ✅ FIXED CORS (THIS IS THE KEY CHANGE)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
+    allow_origins=["*"],  # allow deployed frontend
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -47,9 +48,6 @@ def hard_trim(text: str, limit: int = 2500) -> str:
     return text[:limit] if text else ""
 
 def extract_json(text: str) -> dict:
-    """
-    Safely extract JSON object from LLM output
-    """
     match = re.search(r"\{.*\}", text, re.DOTALL)
     if not match:
         raise ValueError("No JSON found in LLM response")
@@ -67,7 +65,6 @@ def generate_quiz_from_wiki(
     if "wikipedia.org/wiki/" not in url:
         raise HTTPException(400, "Only Wikipedia URLs allowed")
 
-    # ---- CACHE ----
     existing = get_article_by_url(db, url)
     if existing:
         return {
@@ -80,20 +77,15 @@ def generate_quiz_from_wiki(
             "cached": True
         }
 
-    # ---- SCRAPE ----
     data = scrape_wikipedia(url)
     raw_text = data.get("raw_text", "")
     summary = data.get("summary", "")
 
     article_text = hard_trim(summary + "\n\n" + raw_text)
 
-    print("SCRAPER TEXT LENGTH:", len(raw_text))
-    print("FINAL LLM INPUT LENGTH:", len(article_text))
-
     if len(article_text) < 300:
         raise HTTPException(400, "Insufficient article content")
 
-    # ---- LLM CALLS (SAFE) ----
     try:
         quiz_raw = generate_quiz(article_text)
         quiz_data = extract_json(quiz_raw)
@@ -104,18 +96,15 @@ def generate_quiz_from_wiki(
         entities_raw = extract_key_entities(article_text)
         entities_data = extract_json(entities_raw)
 
-    except Exception as e:
-        print("LLM ERROR:", e)
+    except Exception:
         raise HTTPException(500, "LLM returned invalid output")
 
     quiz_list = quiz_data.get("quiz")
-
     if not isinstance(quiz_list, list) or len(quiz_list) < 3:
         raise HTTPException(500, "Invalid quiz structure from LLM")
 
     related_topics = related_data.get("related_topics", [])
 
-    # ---- SAVE ----
     article = create_article(
         db,
         {
@@ -140,8 +129,6 @@ def generate_quiz_from_wiki(
 
 # ---------------- HISTORY ----------------
 
-# ---------------- HISTORY ----------------
-
 @app.get("/history")
 def get_history(
     page: int = Query(1, ge=1),
@@ -158,7 +145,6 @@ def get_history(
         "data": articles
     }
 
-
 @app.delete("/history/{article_id}")
 def delete_history_item(article_id: int, db: Session = Depends(get_db)):
     article = delete_article(db, article_id)
@@ -169,7 +155,6 @@ def delete_history_item(article_id: int, db: Session = Depends(get_db)):
         "message": "Quiz deleted",
         "id": article_id
     }
-
 
 @app.delete("/history")
 def delete_all_history(db: Session = Depends(get_db)):
