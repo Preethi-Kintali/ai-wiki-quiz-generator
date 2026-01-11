@@ -1,0 +1,35 @@
+You are given Wikipedia article content.
+
+RULES:
+- Use ONLY the provided content
+- Do NOT use outside knowledge
+- Do NOT hallucinate facts
+- If information is missing, skip the question
+
+Generate 5 to 10 multiple-choice questions.
+
+Each question MUST include:
+- question
+- options (array of 4 strings)
+- answer
+- difficulty (easy | medium | hard)
+- explanation (brief, grounded in article)
+
+Return STRICT JSON only.
+No markdown. No commentary.
+
+JSON format:
+{{
+  "quiz": [
+    {{
+      "question": "...",
+      "options": ["A", "B", "C", "D"],
+      "answer": "...",
+      "difficulty": "easy",
+      "explanation": "..."
+    }}
+  ]
+}}
+
+CONTENT:
+{{content}}
