@@ -44,7 +44,8 @@ def generate_quiz_from_wiki(
     request: WikiRequest,
     db: Session = Depends(get_db)
 ):
-    url = request.url.strip()
+    url = str(request.url).strip()
+
 
     if "wikipedia.org/wiki/" not in url:
         raise HTTPException(400, "Only Wikipedia URLs allowed")
