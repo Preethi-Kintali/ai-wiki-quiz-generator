@@ -25,11 +25,14 @@ app = FastAPI(title="AI Wiki Quiz Generator")
 # ✅ FIXED CORS (THIS IS THE KEY CHANGE)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[
+        "https://ai-wiki-quiz-generator-frontend-9teu.onrender.com"
+    ],
     allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 
 # ---------------- DB ----------------
