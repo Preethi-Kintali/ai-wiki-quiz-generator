@@ -10,7 +10,7 @@ Accepts any valid Wikipedia article URL
 
 Scrapes article content using BeautifulSoup
 
-Uses an LLM (Gemini / HuggingFace free tier) to generate:
+Uses an LLM (HuggingFace free tier) to generate:
 
 5–10 multiple-choice questions
 
